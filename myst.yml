@@ -1,0 +1,16 @@
+# See docs at: https://mystmd.org/guide/frontmatter
+version: 1
+project:
+  id: 2d38878e-fa9b-4c2d-acac-b91cd612a237
+  # title:
+  # description:
+  # keywords: []
+  # authors: []
+  github: https://github.com/LuisGorozpe/py-jl-Differential-Equiations
+  # To autogenerate a Table of Contents, run "myst init --write-toc"
+site:
+  #template: article-theme
+  template: book-theme
+  # options:
+  #   favicon: favicon.ico
+  #   logo: site_logo.png
