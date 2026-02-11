@@ -1,0 +1,30 @@
+changelog:
+  exclude:
+    labels:
+      - skip-changelog
+    authors:
+      - LuisGorozpe
+  categories:
+    - title: "🚀 New Methods and Features"
+      labels:
+        - enhancement
+        - feature
+    - title: "🐛 Error Corrections"
+      labels:
+        - bug
+    - title: "📚 Documentation"
+      labels:
+        - documentation
+    - title: "🧰 Maintenance and Refactor"
+      labels:
+        - maintenance
+        - refactor
+    - title: "🧪 Testing (Tests)"
+      labels:
+        - dependencies
+    - title: "🐍 Changes in Python"
+      labels:
+        - python
+    - title: "🔵 Changes in Julia"
+      labels:
+        - julia
