@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Science Portfolio</title>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- CSS Variables & Theming --- */
+        :root {
+            /* Default: Dark-Blue (Oceanic) */
+            --bg-color: #0f172a;
+            --bg-gradient: radial-gradient(circle at top left, #1e293b, #0f172a);
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --accent-color: #38bdf8;
+            
+            --card-bg: rgba(30, 41, 59, 0.4);
+            --card-border: rgba(56, 189, 248, 0.1);
+            --card-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+            --glass-blur: 12px;
+            
+            --btn-bg: rgba(56, 189, 248, 0.1);
+            --btn-hover: rgba(56, 189, 248, 0.2);
+        }
+
+        /* Theme: Midnight (Pitch Dark) */
+        body.theme-dark {
+            --bg-color: #000000;
+            --bg-gradient: linear-gradient(135deg, #121212 0%, #000000 100%);
+            --text-primary: #ffffff;
+            --text-secondary: #a1a1aa;
+            --accent-color: #ffffff;
+            
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --card-border: rgba(255, 255, 255, 0.1);
+            --card-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+            
+            --btn-bg: rgba(255, 255, 255, 0.1);
+            --btn-hover: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Theme: Daylight (Light) */
+        body.theme-light {
+            --bg-color: #f3f4f6;
+            --bg-gradient: linear-gradient(135deg, #e5e7eb 0%, #f3f4f6 100%);
+            --text-primary: #111827;
+            --text-secondary: #4b5563;
+            --accent-color: #4f46e5;
+            
+            --card-bg: rgba(255, 255, 255, 0.65);
+            --card-border: rgba(79, 70, 229, 0.1);
+            --card-shadow: 0 8px 24px -6px rgba(0, 0, 0, 0.1);
+            
+            --btn-bg: rgba(79, 70, 229, 0.08);
+            --btn-hover: rgba(79, 70, 229, 0.15);
+        }
+
+        /* --- Global Reset & Typography --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            background-image: var(--bg-gradient);
+            background-attachment: fixed; /* Keeps gradient consistent on scroll */
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+            padding-bottom: 3rem;
+        }
+
+        /* --- Header & Layout --- */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 0 4rem 0;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+        }
+
+        .header-content h1 {
+            font-size: 2.25rem;
+            font-weight: 700;
+            letter-spacing: -0.025em;
+            margin-bottom: 0.5rem;
+        }
+
+        .header-content p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        /* --- Theme Switcher --- */
+        .theme-switcher {
+            display: flex;
+            background: var(--card-bg);
+            padding: 0.3rem;
+            border-radius: 999px;
+            border: 1px solid var(--card-border);
+            backdrop-filter: blur(5px);
+        }
+
+        .theme-btn {
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem 1rem;
+            border-radius: 999px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            transition: all 0.2s ease;
+            font-family: inherit;
+        }
+
+        .theme-btn:hover {
+            color: var(--text-primary);
+        }
+
+        .theme-btn.active {
+            background-color: var(--accent-color);
+            color: var(--bg-color); /* Contrast text for active state */
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+        
+        /* Adjust text color for active button in specific themes */
+        body.theme-dark-blue .theme-btn.active { color: #0f172a; }
+        body.theme-dark .theme-btn.active { color: #000000; }
+        body.theme-light .theme-btn.active { color: #ffffff; }
+
+        /* --- Project Grid --- */
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+
+        /* --- Glassmorphism Card --- */
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 1.75rem;
+            box-shadow: var(--card-shadow);
+            backdrop-filter: blur(var(--glass-blur));
+            -webkit-backdrop-filter: blur(var(--glass-blur));
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-color);
+            box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.4);
+        }
+
+        .card-header {
+            margin-bottom: 1rem;
+        }
+
+        .card-tag {
+            display: inline-block;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--accent-color);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .card h2 {
+            font-size: 1.5rem;
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+        }
+
+        .card p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        /* --- Action Links --- */
+        .link-group {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: auto;
+            flex-wrap: wrap;
+        }
+
+        .btn-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            padding: 0.5rem 0.85rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            background-color: var(--btn-bg);
+            color: var(--text-primary);
+            border: 1px solid transparent;
+            transition: all 0.2s ease;
+        }
+
+        .btn-link:hover {
+            background-color: var(--btn-hover);
+            border-color: var(--accent-color);
+            transform: translateY(-1px);
+        }
+
+        .btn-link svg {
+            width: 16px;
+            height: 16px;
+            fill: currentColor;
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 4rem;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        /* Mobile Adjustments */
+        @media (max-width: 600px) {
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .theme-switcher {
+                width: 100%;
+                justify-content: space-between;
+            }
+            .theme-btn {
+                flex: 1;
+            }
+        }
+    </style>
+</head>
+<body class="theme-dark-blue"> <!-- Default Class -->
+
+    <div class="container">
+        <!-- Header & Theme Switcher -->
+        <header>
+            <div class="header-content">
+                <h1>py-jl-Differential-Equations - Notebooks</h1>
+                <p>Notebooks for Ordinary Differential Equations</p>
+            </div>
+            
+            <div class="theme-switcher" role="group" aria-label="Theme Switcher">
+                <button class="theme-btn active" onclick="setTheme('theme-dark-blue')" id="btn-dark-blue">Oceanic</button>
+                <button class="theme-btn" onclick="setTheme('theme-dark')" id="btn-dark">Midnight</button>
+                <button class="theme-btn" onclick="setTheme('theme-light')" id="btn-light">Daylight</button>
+            </div>
+        </header>
+
+        <!-- Project Grid -->
+        <main class="project-grid">
+
+            <!-- Card 1: Python NoteBook - Vector Fields , Integral Curves and IVP -->
+            <article class="card">
+                <div class="card-header">
+                    <span class="card-tag">Python NoteBook</span>
+                    <h2>Introduction: Vector Fields, Integral Curves and IVP</h2>
+                    <p>Notebook with functions for generating vector fields, integral curves, and solutions with initial conditions for 8 examples. </p>
+                </div>
+                <div class="link-group">
+                    <a href="https://github.com/LuisGorozpe/py-jl-Differential-Equations/blob/main/Introduction-py.ipynb" class="btn-link">
+                        <!-- Notebook Icon -->
+                        <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-8 14H7v-2h4v2zm0-4H7v-2h4v2zm5 4h-4v-2h4v2zm0-4h-4v-2h4v2zM7 7h10v2H7V7z"/></svg>
+                        Notebook
+                    </a>
+                    <a href="https://luisgorozpe.github.io/py-jl-Differential-Equations/Introduction-py.html" class="btn-link">
+                        <!-- Web/Globe Icon -->
+                        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+                        Web
+                    </a>
+                    <a href="https://luisgorozpe.github.io/py-jl-Differential-Equations/Introduction-py.pdf" class="btn-link">
+                        <!-- PDF Icon -->
+                        <svg viewBox="0 0 24 24"><path d="M20 2H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-8.5 7.5c0 .83-.67 1.5-1.5 1.5H9v2H7.5V7H10c.83 0 1.5.67 1.5 1.5v2.5zm5 2c0 .83-.67 1.5-1.5 1.5h-2.5V7H15c.83 0 1.5.67 1.5 1.5v3zm4-3H19v1h1.5v1.5H19v2h-1.5V7h2V8.5z"/></svg>
+                        PDF
+                    </a>
+                </div>
+            </article>
+
+            <!-- Card 2: Julia NoteBook -->
+            <article class="card">
+                <div class="card-header">
+                    <span class="card-tag">Julia NoteBook</span>
+                    <h2>Introduction: Vector Fields, Integral Curves and IVP</h2>
+                    <p>Notebook with functions for generating vector fields, integral curves, and solutions with initial conditions.</p>
+                </div>
+                <div class="link-group">
+                    <a href="https://github.com/LuisGorozpe/py-jl-Differential-Equations/blob/main/Introduction-jl.ipynb" class="btn-link">
+                        <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-8 14H7v-2h4v2zm0-4H7v-2h4v2zm5 4h-4v-2h4v2zm0-4h-4v-2h4v2zM7 7h10v2H7V7z"/></svg>
+                        Notebook
+                    </a>
+                    <a href="https://luisgorozpe.github.io/py-jl-Differential-Equations/Introduction-jl.html" class="btn-link">
+                        <!-- Web/Globe Icon -->
+                        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+                        Web
+                    </a>
+                    <a href="https://luisgorozpe.github.io/py-jl-Differential-Equations/Introduction-jl.pdf" class="btn-link">
+                        <svg viewBox="0 0 24 24"><path d="M20 2H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-8.5 7.5c0 .83-.67 1.5-1.5 1.5H9v2H7.5V7H10c.83 0 1.5.67 1.5 1.5v2.5zm5 2c0 .83-.67 1.5-1.5 1.5h-2.5V7H15c.83 0 1.5.67 1.5 1.5v3zm4-3H19v1h1.5v1.5H19v2h-1.5V7h2V8.5z"/></svg>
+                        PDF
+                    </a>
+                </div>
+            </article>
+
+            <!-- Card 3: New Notebook-->
+            <article class="card">
+                <div class="card-header">
+                    <span class="card-tag">New Notebook</span>
+                    <h2>New Notebook</h2>
+                    <p>Under construction</p>
+                </div>
+                <div class="link-group">
+                    <a href="#" class="btn-link">
+                        <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-8 14H7v-2h4v2zm0-4H7v-2h4v2zm5 4h-4v-2h4v2zm0-4h-4v-2h4v2zM7 7h10v2H7V7z"/></svg>
+                        Notebook
+                    </a>
+                    <a href="#" class="btn-link">
+                        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+                        PDF
+                    </a>
+                </div>
+            </article>
+
+        </main>
+
+        <footer>
+            <p>&copy; 2023 Senior Data Scientist. Built with Glassmorphism.</p>
+        </footer>
+    </div>
+
+    <!-- Theme Logic -->
+    <script>
+        // DOM Elements
+        const body = document.body;
+        const btnOceanic = document.getElementById('btn-dark-blue');
+        const btnMidnight = document.getElementById('btn-dark');
+        const btnDaylight = document.getElementById('btn-light');
+        const allBtns = [btnOceanic, btnMidnight, btnDaylight];
+
+        // Available Themes
+        const THEMES = {
+            OCEANIC: 'theme-dark-blue',
+            MIDNIGHT: 'theme-dark',
+            DAYLIGHT: 'theme-light'
+        };
+
+        // Initialize Theme from LocalStorage or Default
+        function initTheme() {
+            const savedTheme = localStorage.getItem('portfolio-theme');
+            if (savedTheme) {
+                setTheme(savedTheme, false); // False = don't save again
+            } else {
+                setTheme(THEMES.OCEANIC, false);
+            }
+        }
+
+        // Main Theme Switcher Function
+        function setTheme(themeName, save = true) {
+            // 1. Clean up existing classes
+            body.classList.remove(THEMES.OCEANIC, THEMES.MIDNIGHT, THEMES.DAYLIGHT);
+            
+            // 2. Add new class
+            body.classList.add(themeName);
+
+            // 3. Update Button States
+            allBtns.forEach(btn => btn.classList.remove('active'));
+            if(themeName === THEMES.OCEANIC) btnOceanic.classList.add('active');
+            if(themeName === THEMES.MIDNIGHT) btnMidnight.classList.add('active');
+            if(themeName === THEMES.DAYLIGHT) btnDaylight.classList.add('active');
+
+            // 4. Save Preference
+            if (save) {
+                localStorage.setItem('portfolio-theme', themeName);
+            }
+        }
+
+        // Run Initialization
+        document.addEventListener('DOMContentLoaded', initTheme);
+    </script>
+</body>
+</html>
